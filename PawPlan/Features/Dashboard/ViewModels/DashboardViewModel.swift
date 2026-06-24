@@ -3,19 +3,19 @@ import Combine
 import SwiftUI
 import PawPlanShared
 
+// MARK: - View Data
+
 public struct DashboardViewData: Equatable {
-    public let petName: String
-    public let petMood: String
-    public let petLevel: Int
+    public let upcomingEvents: [CalendarEvent]
     public let todayEventsCount: Int
-    
-    public init(petName: String, petMood: String, petLevel: Int, todayEventsCount: Int) {
-        self.petName = petName
-        self.petMood = petMood
-        self.petLevel = petLevel
+
+    public init(upcomingEvents: [CalendarEvent], todayEventsCount: Int) {
+        self.upcomingEvents = upcomingEvents
         self.todayEventsCount = todayEventsCount
     }
 }
+
+// MARK: - View State
 
 public enum DashboardViewState: Equatable {
     case loading
@@ -24,38 +24,69 @@ public enum DashboardViewState: Equatable {
     case error(AppError)
 }
 
+// MARK: - ViewModel
+
 @MainActor
 public final class DashboardViewModel: ObservableObject {
     @Published public private(set) var state: DashboardViewState = .loading
-    
+
+    // MARK: - Dependencies
+
+    private let eventRepository: EventRepositoryProtocol
     private let dateProvider: DateProviderProtocol
+    private let calendarProvider: CalendarProviderProtocol
     private var loadTask: Task<Void, Never>?
-    
-    public init(dateProvider: DateProviderProtocol) {
+
+    // MARK: - Init
+
+    public init(
+        eventRepository: EventRepositoryProtocol,
+        dateProvider: DateProviderProtocol,
+        calendarProvider: CalendarProviderProtocol
+    ) {
+        self.eventRepository = eventRepository
         self.dateProvider = dateProvider
+        self.calendarProvider = calendarProvider
     }
-    
+
+    // MARK: - Public Interface
+
     public func loadDashboard() {
         loadTask?.cancel()
         state = .loading
-        
+
         loadTask = Task {
-            // Simulate reading SwiftData in-memory
-            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s loading
-            
-            if Task.isCancelled { return }
-            
-            // Empty state for default setup, or populated sample
-            let data = DashboardViewData(
-                petName: "Milo",
-                petMood: "Relaxed",
-                petLevel: 1,
-                todayEventsCount: 0
-            )
-            self.state = .loaded(data)
+            do {
+                if Task.isCancelled { return }
+
+                let allEvents = try await eventRepository.fetchEvents()
+                let now = dateProvider.now
+
+                let todayEvents = allEvents.filter {
+                    calendarProvider.isDate($0.startDate, inSameDayAs: now)
+                }
+                let upcoming = allEvents
+                    .filter { $0.startDate >= now && $0.status == .upcoming }
+                    .prefix(3)
+
+                if Task.isCancelled { return }
+
+                if allEvents.isEmpty {
+                    self.state = .empty
+                } else {
+                    self.state = .loaded(DashboardViewData(
+                        upcomingEvents: Array(upcoming),
+                        todayEventsCount: todayEvents.count
+                    ))
+                }
+            } catch {
+                if !Task.isCancelled {
+                    self.state = .error(.unknown(error.localizedDescription))
+                }
+            }
         }
     }
-    
+
     public func cancelTasks() {
         loadTask?.cancel()
     }
