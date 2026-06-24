@@ -1,0 +1,46 @@
+# Xcode
+#
+# Xcode clean-up / build files
+build/
+DerivedData/
+
+# Personal settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+# Xcode Patch
+*.xcuserstate
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# CocoaPods
+# Pods/
+
+# Carthage
+# Carthage/Build
+
+# Fastlane
+# fastlane/report.xml
+# fastlane/Preview.html
+# fastlane/screenshots
+
+# Bundle artifacts
+*.ipa
+*.app.dSYM.zip
+*.app.dSYM
+
+# macOS
+.DS_Store
