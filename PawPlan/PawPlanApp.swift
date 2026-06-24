@@ -12,6 +12,7 @@ struct PawPlanApp: App {
         // Initialize dependency container
         let modelContainer = SwiftDataModelContainer.create()
         self.container = AppContainer(modelContainer: modelContainer)
+        container.registerNotificationDelegate()
     }
     
     var body: some Scene {

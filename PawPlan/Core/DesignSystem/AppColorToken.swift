@@ -1,11 +1,11 @@
 import SwiftUI
 
 public enum AppColorToken {
-    // Premium theme colors (Harmonious tones)
-    public static let primary = Color("PrimaryColor", bundle: .main)
-    public static let secondary = Color("SecondaryColor", bundle: .main)
-    public static let background = Color("BackgroundColor", bundle: .main)
-    public static let cardBackground = Color("CardBackgroundColor", bundle: .main)
+    // Premium theme colors (Harmonious tones using system fallbacks and custom RGB)
+    public static let primary = Color(red: 0.12, green: 0.63, blue: 0.59) // Beautiful Premium Teal
+    public static let secondary = Color(red: 0.08, green: 0.45, blue: 0.42) // Darker Teal
+    public static let background = Color(uiColor: .systemGroupedBackground) // Auto light/dark background
+    public static let cardBackground = Color(uiColor: .secondarySystemGroupedBackground) // Auto light/dark card background
     
     // Fallback colors for default views before assets catalog is set up
     public static let mint = Color.mint

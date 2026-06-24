@@ -7,12 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0ED044C9BEFC02D54CA4689F /* MockObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4574288EB9F356281EF46B /* MockObjects.swift */; };
+		5337313466F5E126BA02CEEC /* EventRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A7485681BE993DCD729044 /* EventRepositoryTests.swift */; };
+		6C10C39276C4888E9B2707B5 /* WatchNowViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D4942ECB485DA127FE5AC /* WatchNowViewModelTests.swift */; };
+		804FA8AAE620FEACD5B88D0C /* RootViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D74339D4A9F45D7999715ED /* RootViewModelTests.swift */; };
+		8EA8E4FE95D2DA5C299416CE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7C542CC8D73BBF0D0DFB7F /* Foundation.framework */; };
+		9E9E39C4CDB243669229CECD /* AgendaViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B50D83D97226E0B1706419 /* AgendaViewModelTests.swift */; };
+		9FCEE7E120413CFA6632B8DE /* EventValidationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB5EA3BB1AD32FAE4500676 /* EventValidationServiceTests.swift */; };
+		B66972B8BE15891F9706B1BE /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E22A17E8BA23313879D7B8 /* DashboardViewModelTests.swift */; };
 		C37105DB2FEC697F008A5E22 /* PawPlan Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C37105DA2FEC697F008A5E22 /* PawPlan Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C37106622FEC72E0008A5E22 /* PawPlanShared in Frameworks */ = {isa = PBXBuildFile; productRef = C37106612FEC72E0008A5E22 /* PawPlanShared */; };
 		C371066C2FEC75DA008A5E22 /* PawPlanShared in Frameworks */ = {isa = PBXBuildFile; productRef = C371066B2FEC75DA008A5E22 /* PawPlanShared */; };
+		C4C46BC9FEAA99D63F53A71B /* NotificationSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37874AC82EACB68D69D93063 /* NotificationSchedulerTests.swift */; };
+		C9FD21FB8CBA7848675125B7 /* EventEditorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF466B824CC21CB6D262906 /* EventEditorViewModelTests.swift */; };
+		DD1A943A5092770B64BDA920 /* CalendarViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7737A2757059F4EDA6958F3 /* CalendarViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		006914024FB831D6F6D1231F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C37105C52FEC697E008A5E22 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C37105CC2FEC697E008A5E22;
+			remoteInfo = PawPlan;
+		};
 		C37105DC2FEC697F008A5E22 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C37105C52FEC697E008A5E22 /* Project object */;
@@ -37,25 +55,49 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2D74339D4A9F45D7999715ED /* RootViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RootViewModelTests.swift; path = PawPlanTests/RootViewModelTests.swift; sourceTree = "<group>"; };
+		37874AC82EACB68D69D93063 /* NotificationSchedulerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NotificationSchedulerTests.swift; path = PawPlanTests/NotificationSchedulerTests.swift; sourceTree = "<group>"; };
+		57A7485681BE993DCD729044 /* EventRepositoryTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EventRepositoryTests.swift; path = PawPlanTests/EventRepositoryTests.swift; sourceTree = "<group>"; };
+		5C6D4942ECB485DA127FE5AC /* WatchNowViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WatchNowViewModelTests.swift; path = PawPlanTests/WatchNowViewModelTests.swift; sourceTree = "<group>"; };
+		5E4574288EB9F356281EF46B /* MockObjects.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockObjects.swift; path = PawPlanTests/MockObjects.swift; sourceTree = "<group>"; };
+		68E22A17E8BA23313879D7B8 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DashboardViewModelTests.swift; path = PawPlanTests/DashboardViewModelTests.swift; sourceTree = "<group>"; };
+		6E7C542CC8D73BBF0D0DFB7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		7FF466B824CC21CB6D262906 /* EventEditorViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EventEditorViewModelTests.swift; path = PawPlanTests/EventEditorViewModelTests.swift; sourceTree = "<group>"; };
+		A2C08D62097AC24496369BFA /* PawPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PawPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37105CD2FEC697E008A5E22 /* PawPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PawPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37105DA2FEC697F008A5E22 /* PawPlan Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PawPlan Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C371065C2FEC7216008A5E22 /* PawPlanShared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PawPlanShared; path = Packages/PawPlanShared; sourceTree = "<group>"; };
+		D7737A2757059F4EDA6958F3 /* CalendarViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CalendarViewModelTests.swift; path = PawPlanTests/CalendarViewModelTests.swift; sourceTree = "<group>"; };
+		E6B50D83D97226E0B1706419 /* AgendaViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AgendaViewModelTests.swift; path = PawPlanTests/AgendaViewModelTests.swift; sourceTree = "<group>"; };
+		FEB5EA3BB1AD32FAE4500676 /* EventValidationServiceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EventValidationServiceTests.swift; path = PawPlanTests/EventValidationServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C37105CF2FEC697E008A5E22 /* PawPlan */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = PawPlan;
 			sourceTree = "<group>";
 		};
 		C37105DE2FEC697F008A5E22 /* PawPlan Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = "PawPlan Watch App";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		47B30889697244F649867EC5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EA8E4FE95D2DA5C299416CE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C37105CA2FEC697E008A5E22 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -75,6 +117,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A3E0CD4A5F6E38D0847C530 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6E7C542CC8D73BBF0D0DFB7F /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		9B36BB950BC7568053AC85F0 /* PawPlanTests */ = {
+			isa = PBXGroup;
+			children = (
+				2D74339D4A9F45D7999715ED /* RootViewModelTests.swift */,
+				68E22A17E8BA23313879D7B8 /* DashboardViewModelTests.swift */,
+				5C6D4942ECB485DA127FE5AC /* WatchNowViewModelTests.swift */,
+				E6B50D83D97226E0B1706419 /* AgendaViewModelTests.swift */,
+				D7737A2757059F4EDA6958F3 /* CalendarViewModelTests.swift */,
+				7FF466B824CC21CB6D262906 /* EventEditorViewModelTests.swift */,
+				57A7485681BE993DCD729044 /* EventRepositoryTests.swift */,
+				FEB5EA3BB1AD32FAE4500676 /* EventValidationServiceTests.swift */,
+				5E4574288EB9F356281EF46B /* MockObjects.swift */,
+				37874AC82EACB68D69D93063 /* NotificationSchedulerTests.swift */,
+			);
+			name = PawPlanTests;
+			sourceTree = SOURCE_ROOT;
+		};
 		C37105C42FEC697E008A5E22 = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +149,7 @@
 				C37105DE2FEC697F008A5E22 /* PawPlan Watch App */,
 				C371065B2FEC7216008A5E22 /* Frameworks */,
 				C37105CE2FEC697E008A5E22 /* Products */,
+				9B36BB950BC7568053AC85F0 /* PawPlanTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,6 +158,7 @@
 			children = (
 				C37105CD2FEC697E008A5E22 /* PawPlan.app */,
 				C37105DA2FEC697F008A5E22 /* PawPlan Watch App.app */,
+				A2C08D62097AC24496369BFA /* PawPlanTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				C371065C2FEC7216008A5E22 /* PawPlanShared */,
+				0A3E0CD4A5F6E38D0847C530 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -105,6 +175,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2CC5B71ACA6E4791E2C9A935 /* PawPlanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA49F9293D1684EFFF6C77BC /* Build configuration list for PBXNativeTarget "PawPlanTests" */;
+			buildPhases = (
+				871B8520F8BD8249631F0BDE /* Sources */,
+				47B30889697244F649867EC5 /* Frameworks */,
+				AAF975549386FD5F64D50C77 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB637B7DCFFE189E5AF0AFF1 /* PBXTargetDependency */,
+			);
+			name = PawPlanTests;
+			productName = PawPlanTests;
+			productReference = A2C08D62097AC24496369BFA /* PawPlanTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C37105CC2FEC697E008A5E22 /* PawPlan */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C37105EB2FEC697F008A5E22 /* Build configuration list for PBXNativeTarget "PawPlan" */;
@@ -187,11 +275,19 @@
 			targets = (
 				C37105CC2FEC697E008A5E22 /* PawPlan */,
 				C37105D92FEC697F008A5E22 /* PawPlan Watch App */,
+				2CC5B71ACA6E4791E2C9A935 /* PawPlanTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AAF975549386FD5F64D50C77 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C37105CB2FEC697E008A5E22 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -209,6 +305,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		871B8520F8BD8249631F0BDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				804FA8AAE620FEACD5B88D0C /* RootViewModelTests.swift in Sources */,
+				B66972B8BE15891F9706B1BE /* DashboardViewModelTests.swift in Sources */,
+				6C10C39276C4888E9B2707B5 /* WatchNowViewModelTests.swift in Sources */,
+				9E9E39C4CDB243669229CECD /* AgendaViewModelTests.swift in Sources */,
+				DD1A943A5092770B64BDA920 /* CalendarViewModelTests.swift in Sources */,
+				C9FD21FB8CBA7848675125B7 /* EventEditorViewModelTests.swift in Sources */,
+				5337313466F5E126BA02CEEC /* EventRepositoryTests.swift in Sources */,
+				9FCEE7E120413CFA6632B8DE /* EventValidationServiceTests.swift in Sources */,
+				0ED044C9BEFC02D54CA4689F /* MockObjects.swift in Sources */,
+				C4C46BC9FEAA99D63F53A71B /* NotificationSchedulerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C37105C92FEC697E008A5E22 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,6 +339,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AB637B7DCFFE189E5AF0AFF1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PawPlan;
+			target = C37105CC2FEC697E008A5E22 /* PawPlan */;
+			targetProxy = 006914024FB831D6F6D1231F /* PBXContainerItemProxy */;
+		};
 		C37105DD2FEC697F008A5E22 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C37105D92FEC697F008A5E22 /* PawPlan Watch App */;
@@ -234,6 +353,37 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		54899D5211E01B776553D337 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miyzwan.PawPlanTests;
+				PRODUCT_NAME = PawPlanTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PawPlan.app/PawPlan";
+			};
+			name = Debug;
+		};
+		5800FAA509ED4A38F991D9A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miyzwan.PawPlanTests;
+				PRODUCT_NAME = PawPlanTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PawPlan.app/PawPlan";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		C37105E52FEC697F008A5E22 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -491,6 +641,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA49F9293D1684EFFF6C77BC /* Build configuration list for PBXNativeTarget "PawPlanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5800FAA509ED4A38F991D9A3 /* Release */,
+				54899D5211E01B776553D337 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C37105C82FEC697E008A5E22 /* Build configuration list for PBXProject "PawPlan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

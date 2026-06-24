@@ -68,8 +68,12 @@ final class EventValidationServiceTests: XCTestCase {
     func testValidate_ValidTitle_ReturnsSuccess() {
         let (start, end) = makeValidDates()
         let result = service.validate(title: "Team Meeting", startDate: start, endDate: end)
-
-        XCTAssertEqual(result, .success(()), "Expected success for valid title")
+        switch result {
+        case .success:
+            break
+        case .failure(let error):
+            XCTFail("Expected success for valid title, got failure: \(error)")
+        }
     }
 
     // MARK: - Date Range Validation
@@ -111,7 +115,12 @@ final class EventValidationServiceTests: XCTestCase {
     func testValidate_ValidDateRange_ReturnsSuccess() {
         let (start, end) = makeValidDates()
         let result = service.validate(title: "Test Event", startDate: start, endDate: end)
-        XCTAssertEqual(result, .success(()), "Expected success for valid date range")
+        switch result {
+        case .success:
+            break
+        case .failure(let error):
+            XCTFail("Expected success for valid date range, got failure: \(error)")
+        }
     }
 
     // MARK: - Full CalendarEvent Validation
@@ -121,7 +130,12 @@ final class EventValidationServiceTests: XCTestCase {
         let event = CalendarEvent(title: "Appointment", startDate: start, endDate: end)
 
         let result = service.validate(event)
-        XCTAssertEqual(result, .success(()), "Expected success for a valid CalendarEvent")
+        switch result {
+        case .success:
+            break
+        case .failure(let error):
+            XCTFail("Expected success for valid CalendarEvent, got failure: \(error)")
+        }
     }
 
     func testValidate_CalendarEventWithEmptyTitle_ReturnsFailure() {

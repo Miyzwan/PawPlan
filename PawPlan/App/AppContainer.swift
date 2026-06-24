@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import UserNotifications
 import PawPlanShared
 
 // MARK: - AppContainer
@@ -19,6 +20,9 @@ public final class AppContainer {
 
     public let eventRepository: EventRepositoryProtocol
     public let eventValidationService: EventValidationServiceProtocol
+    public let notificationScheduler: NotificationSchedulerProtocol
+    public let notificationPermissionManager: NotificationPermissionManager
+    private var notificationActionHandler: NotificationActionHandler?
 
     // MARK: - Init
 
@@ -30,8 +34,28 @@ public final class AppContainer {
         self.modelContainer = modelContainer
         self.dateProvider = dateProvider
         self.calendarProvider = calendarProvider
-        self.eventRepository = EventRepository(modelContainer: modelContainer)
+        
+        let scheduler = NotificationScheduler(
+            dateProvider: dateProvider,
+            calendarProvider: calendarProvider
+        )
+        self.notificationScheduler = scheduler
+        self.notificationPermissionManager = NotificationPermissionManager()
+        
+        self.eventRepository = EventRepository(
+            modelContainer: modelContainer,
+            notificationScheduler: scheduler
+        )
         self.eventValidationService = EventValidationService()
+    }
+
+    public func registerNotificationDelegate() {
+        let handler = NotificationActionHandler(
+            eventRepository: eventRepository,
+            dateProvider: dateProvider
+        )
+        self.notificationActionHandler = handler
+        UNUserNotificationCenter.current().delegate = handler
     }
 
     // MARK: - ViewModel Factories
@@ -53,6 +77,30 @@ public final class AppContainer {
             eventRepository: eventRepository,
             dateProvider: dateProvider,
             calendarProvider: calendarProvider
+        )
+    }
+
+    public func makeAgendaViewModel() -> AgendaViewModel {
+        return AgendaViewModel(
+            eventRepository: eventRepository,
+            dateProvider: dateProvider,
+            calendarProvider: calendarProvider
+        )
+    }
+
+    public func makeEventEditorViewModel(eventToEdit: CalendarEvent? = nil) -> EventEditorViewModel {
+        return EventEditorViewModel(
+            eventRepository: eventRepository,
+            validationService: eventValidationService,
+            eventToEdit: eventToEdit
+        )
+    }
+
+    public func makeEventDetailViewModel(event: CalendarEvent) -> EventDetailViewModel {
+        return EventDetailViewModel(
+            event: event,
+            eventRepository: eventRepository,
+            dateProvider: dateProvider
         )
     }
 

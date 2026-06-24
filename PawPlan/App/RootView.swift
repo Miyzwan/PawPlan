@@ -20,7 +20,7 @@ public struct RootView: View {
                 .tag(AppRouter.AppTab.dashboard)
                 .accessibilityIdentifier("tab_dashboard")
             
-            CalendarView(viewModel: container.makeCalendarViewModel())
+            CalendarView(viewModel: container.makeCalendarViewModel(), container: container)
                 .tabItem {
                     Label("Kalender", systemImage: AppIcon.calendar)
                 }

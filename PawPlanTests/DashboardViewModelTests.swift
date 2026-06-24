@@ -3,42 +3,6 @@ import SwiftData
 import PawPlanShared
 @testable import PawPlan
 
-// MARK: - Mocks
-
-final class MockDateProvider: DateProviderProtocol {
-    private let date: Date
-    init(date: Date = Date()) { self.date = date }
-    func currentDate() -> Date { return date }
-}
-
-final class MockCalendarProvider: CalendarProviderProtocol {
-    func currentCalendar() -> Calendar { return Calendar.current }
-}
-
-final class MockEventRepository: EventRepositoryProtocol {
-    var stubbedEvents: [CalendarEvent] = []
-    var shouldThrow = false
-
-    func fetchEvents() async throws -> [CalendarEvent] {
-        if shouldThrow { throw AppError.databaseError("Mock error") }
-        return stubbedEvents
-    }
-    func fetchEvent(by id: UUID) async throws -> CalendarEvent? {
-        return stubbedEvents.first { $0.id == id }
-    }
-    func saveEvent(_ event: CalendarEvent) async throws {
-        if shouldThrow { throw AppError.databaseError("Mock error") }
-        if let index = stubbedEvents.firstIndex(where: { $0.id == event.id }) {
-            stubbedEvents[index] = event
-        } else {
-            stubbedEvents.append(event)
-        }
-    }
-    func deleteEvent(by id: UUID) async throws {
-        stubbedEvents.removeAll { $0.id == id }
-    }
-}
-
 // MARK: - DashboardViewModelTests
 
 @MainActor
