@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C37105DB2FEC697F008A5E22 /* PawPlan Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C37105DA2FEC697F008A5E22 /* PawPlan Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C37106622FEC72E0008A5E22 /* PawPlanShared in Frameworks */ = {isa = PBXBuildFile; productRef = C37106612FEC72E0008A5E22 /* PawPlanShared */; };
+		C371066C2FEC75DA008A5E22 /* PawPlanShared in Frameworks */ = {isa = PBXBuildFile; productRef = C371066B2FEC75DA008A5E22 /* PawPlanShared */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +39,7 @@
 /* Begin PBXFileReference section */
 		C37105CD2FEC697E008A5E22 /* PawPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PawPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37105DA2FEC697F008A5E22 /* PawPlan Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PawPlan Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C371065C2FEC7216008A5E22 /* PawPlanShared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PawPlanShared; path = Packages/PawPlanShared; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -57,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C371066C2FEC75DA008A5E22 /* PawPlanShared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C37106622FEC72E0008A5E22 /* PawPlanShared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +80,7 @@
 			children = (
 				C37105CF2FEC697E008A5E22 /* PawPlan */,
 				C37105DE2FEC697F008A5E22 /* PawPlan Watch App */,
+				C371065B2FEC7216008A5E22 /* Frameworks */,
 				C37105CE2FEC697E008A5E22 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +92,14 @@
 				C37105DA2FEC697F008A5E22 /* PawPlan Watch App.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C371065B2FEC7216008A5E22 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C371065C2FEC7216008A5E22 /* PawPlanShared */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -110,6 +124,7 @@
 			);
 			name = PawPlan;
 			packageProductDependencies = (
+				C371066B2FEC75DA008A5E22 /* PawPlanShared */,
 			);
 			productName = PawPlan;
 			productReference = C37105CD2FEC697E008A5E22 /* PawPlan.app */;
@@ -132,6 +147,7 @@
 			);
 			name = "PawPlan Watch App";
 			packageProductDependencies = (
+				C37106612FEC72E0008A5E22 /* PawPlanShared */,
 			);
 			productName = "PawPlan Watch App";
 			productReference = C37105DA2FEC697F008A5E22 /* PawPlan Watch App.app */;
@@ -503,6 +519,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C37106612FEC72E0008A5E22 /* PawPlanShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PawPlanShared;
+		};
+		C371066B2FEC75DA008A5E22 /* PawPlanShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PawPlanShared;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C37105C52FEC697E008A5E22 /* Project object */;
 }

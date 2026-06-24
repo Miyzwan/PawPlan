@@ -1,17 +1,27 @@
-//
-//  PawPlanApp.swift
-//  PawPlan
-//
-//  Created by Dimas Dwi Ismaunnizam on 25/06/26.
-//
-
 import SwiftUI
+import SwiftData
+import PawPlanShared
 
 @main
 struct PawPlanApp: App {
+    @StateObject private var router = AppRouter()
+    @StateObject private var settings = AppSettings()
+    private let container: AppContainer
+    
+    init() {
+        // Initialize dependency container
+        let modelContainer = SwiftDataModelContainer.create()
+        self.container = AppContainer(modelContainer: modelContainer)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView(
+                viewModel: container.makeRootViewModel(router: router),
+                container: container,
+                settings: settings
+            )
+            .modelContainer(container.modelContainer)
         }
     }
 }
