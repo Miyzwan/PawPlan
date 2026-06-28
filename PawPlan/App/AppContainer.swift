@@ -22,6 +22,8 @@ public final class AppContainer {
     public let eventValidationService: EventValidationServiceProtocol
     public let notificationScheduler: NotificationSchedulerProtocol
     public let notificationPermissionManager: NotificationPermissionManager
+    public let petRepository: PetRepositoryProtocol
+    public let petStateEngine: PetStateEngineProtocol
     private var notificationActionHandler: NotificationActionHandler?
 
     // MARK: - Init
@@ -34,17 +36,25 @@ public final class AppContainer {
         self.modelContainer = modelContainer
         self.dateProvider = dateProvider
         self.calendarProvider = calendarProvider
-        
+
         let scheduler = NotificationScheduler(
             dateProvider: dateProvider,
             calendarProvider: calendarProvider
         )
         self.notificationScheduler = scheduler
         self.notificationPermissionManager = NotificationPermissionManager()
-        
+
+        let petRepo = PetRepository(modelContainer: modelContainer)
+        self.petRepository = petRepo
+
+        let petEngine = PetStateEngine()
+        self.petStateEngine = petEngine
+
         self.eventRepository = EventRepository(
             modelContainer: modelContainer,
-            notificationScheduler: scheduler
+            notificationScheduler: scheduler,
+            petRepository: petRepo,
+            petStateEngine: petEngine
         )
         self.eventValidationService = EventValidationService()
     }
@@ -68,7 +78,9 @@ public final class AppContainer {
         return DashboardViewModel(
             eventRepository: eventRepository,
             dateProvider: dateProvider,
-            calendarProvider: calendarProvider
+            calendarProvider: calendarProvider,
+            petRepository: petRepository,
+            petStateEngine: petStateEngine
         )
     }
 

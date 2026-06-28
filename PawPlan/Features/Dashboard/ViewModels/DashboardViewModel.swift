@@ -29,12 +29,17 @@ public enum DashboardViewState: Equatable {
 @MainActor
 public final class DashboardViewModel: ObservableObject {
     @Published public private(set) var state: DashboardViewState = .loading
+    @Published public private(set) var petProfile: PetProfile?
+    @Published public private(set) var dialogueText: String?
+    @Published public var showCustomizationSheet: Bool = false
 
     // MARK: - Dependencies
 
     private let eventRepository: EventRepositoryProtocol
     private let dateProvider: DateProviderProtocol
     private let calendarProvider: CalendarProviderProtocol
+    private let petRepository: PetRepositoryProtocol
+    private let petStateEngine: PetStateEngineProtocol
     private var loadTask: Task<Void, Never>?
 
     // MARK: - Init
@@ -42,11 +47,15 @@ public final class DashboardViewModel: ObservableObject {
     public init(
         eventRepository: EventRepositoryProtocol,
         dateProvider: DateProviderProtocol,
-        calendarProvider: CalendarProviderProtocol
+        calendarProvider: CalendarProviderProtocol,
+        petRepository: PetRepositoryProtocol = DummyPetRepository(),
+        petStateEngine: PetStateEngineProtocol = DummyPetStateEngine()
     ) {
         self.eventRepository = eventRepository
         self.dateProvider = dateProvider
         self.calendarProvider = calendarProvider
+        self.petRepository = petRepository
+        self.petStateEngine = petStateEngine
     }
 
     // MARK: - Public Interface
@@ -59,8 +68,40 @@ public final class DashboardViewModel: ObservableObject {
             do {
                 if Task.isCancelled { return }
 
-                let allEvents = try await eventRepository.fetchEvents()
+                // Load events and pet profile concurrently
+                async let eventsResult = eventRepository.fetchEvents()
+                async let petResult = petRepository.fetchPetProfile()
+
+                let allEvents = try await eventsResult
+                var fetchedPet = try await petResult
+
                 let now = dateProvider.now
+
+                // Resolve pet mood from current event context
+                let activeEvent = allEvents.first {
+                    $0.startDate <= now && $0.endDate >= now && $0.status == .upcoming
+                }
+                let nextEvent = allEvents
+                    .filter { $0.startDate > now && $0.status == .upcoming }
+                    .min(by: { $0.startDate < $1.startDate })
+
+                if var pet = fetchedPet {
+                    let resolvedMood = petStateEngine.resolveMood(
+                        activeEvent: activeEvent,
+                        nextEvent: nextEvent,
+                        currentDate: now
+                    )
+                    if pet.currentMood != resolvedMood {
+                        pet.currentMood = resolvedMood
+                        try await petRepository.savePetProfile(pet)
+                        fetchedPet = pet
+                    }
+                }
+
+                if Task.isCancelled { return }
+
+                self.petProfile = fetchedPet
+                self.dialogueText = moodDialogue(for: fetchedPet?.currentMood ?? .idle, nextEvent: nextEvent)
 
                 let todayEvents = allEvents.filter {
                     calendarProvider.isDate($0.startDate, inSameDayAs: now)
@@ -68,8 +109,6 @@ public final class DashboardViewModel: ObservableObject {
                 let upcoming = allEvents
                     .filter { $0.startDate >= now && $0.status == .upcoming }
                     .prefix(3)
-
-                if Task.isCancelled { return }
 
                 if allEvents.isEmpty {
                     self.state = .empty
@@ -89,5 +128,80 @@ public final class DashboardViewModel: ObservableObject {
 
     public func cancelTasks() {
         loadTask?.cancel()
+    }
+
+    // MARK: - Pet Interactions
+
+    public func feedPet() {
+        guard var pet = petProfile else { return }
+        let (updated, dialogue) = petStateEngine.feedPet(pet)
+        pet = updated
+        persistPet(pet)
+        dialogueText = dialogue
+    }
+
+    public func playWithPet() {
+        guard var pet = petProfile else { return }
+        let (updated, dialogue) = petStateEngine.playWithPet(pet)
+        pet = updated
+        persistPet(pet)
+        dialogueText = dialogue
+    }
+
+    public func teleportPet() {
+        guard var pet = petProfile else { return }
+        let (updated, dialogue) = petStateEngine.interact(action: .teleport, with: pet)
+        pet = updated
+        persistPet(pet)
+        dialogueText = dialogue
+    }
+
+    public func openCustomization() {
+        showCustomizationSheet = true
+    }
+
+    public func closeCustomization() {
+        showCustomizationSheet = false
+    }
+
+    public func savePetCustomization(name: String, species: PetSpecies, accessory: String?) {
+        guard var pet = petProfile else { return }
+        pet.name = name
+        pet.species = species
+        pet.selectedAccessory = accessory
+        persistPet(pet)
+        showCustomizationSheet = false
+        dialogueText = "Haii! Aku \(name)! 🐾"
+    }
+
+    // MARK: - Private Helpers
+
+    private func persistPet(_ pet: PetProfile) {
+        petProfile = pet
+        Task {
+            try? await petRepository.savePetProfile(pet)
+        }
+    }
+
+    private func moodDialogue(for mood: PetMood, nextEvent: CalendarEvent?) -> String {
+        switch mood {
+        case .sleeping:
+            return "Zzz... tidak ada agenda. Waktu tidur! 💤"
+        case .relaxed:
+            return "Santai dulu~ Tidak ada agenda dalam waktu dekat 😌"
+        case .idle:
+            return "Halo! Ada yang bisa aku bantu? 🐾"
+        case .alert:
+            let title = nextEvent?.title ?? "agenda"
+            return "⚠️ \"\(title)\" sebentar lagi! Ayo siapkan diri!"
+        case .focused:
+            return "Ssst! Sedang fokus! Tetap semangat! 🧠"
+        case .excited:
+            return "Waaah! Aku semangat! 🎉"
+        case .happy:
+            return "Yeay! Kerja bagus! ✨"
+        case .concerned:
+            return "Hm... ada agenda yang terlewat. Jangan lupa ya! 😟"
+        }
     }
 }

@@ -75,15 +75,11 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C37105CF2FEC697E008A5E22 /* PawPlan */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = PawPlan;
 			sourceTree = "<group>";
 		};
 		C37105DE2FEC697F008A5E22 /* PawPlan Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "PawPlan Watch App";
 			sourceTree = "<group>";
 		};
