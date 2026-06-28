@@ -24,6 +24,8 @@ public final class AppContainer {
     public let notificationPermissionManager: NotificationPermissionManager
     public let petRepository: PetRepositoryProtocol
     public let petStateEngine: PetStateEngineProtocol
+    public let liveActivityManager: LiveActivityManagerProtocol
+    public let liveActivityEventResolver: LiveActivityEventResolver
     private var notificationActionHandler: NotificationActionHandler?
 
     // MARK: - Init
@@ -49,6 +51,9 @@ public final class AppContainer {
 
         let petEngine = PetStateEngine()
         self.petStateEngine = petEngine
+
+        self.liveActivityManager = LiveActivityManager()
+        self.liveActivityEventResolver = LiveActivityEventResolver()
 
         self.eventRepository = EventRepository(
             modelContainer: modelContainer,
@@ -80,7 +85,9 @@ public final class AppContainer {
             dateProvider: dateProvider,
             calendarProvider: calendarProvider,
             petRepository: petRepository,
-            petStateEngine: petStateEngine
+            petStateEngine: petStateEngine,
+            liveActivityManager: liveActivityManager,
+            liveActivityEventResolver: liveActivityEventResolver
         )
     }
 
@@ -112,7 +119,8 @@ public final class AppContainer {
         return EventDetailViewModel(
             event: event,
             eventRepository: eventRepository,
-            dateProvider: dateProvider
+            dateProvider: dateProvider,
+            liveActivityManager: liveActivityManager
         )
     }
 

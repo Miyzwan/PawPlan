@@ -32,6 +32,7 @@ public final class DashboardViewModel: ObservableObject {
     @Published public private(set) var petProfile: PetProfile?
     @Published public private(set) var dialogueText: String?
     @Published public var showCustomizationSheet: Bool = false
+    @Published public private(set) var liveActivityError: String? = nil
 
     // MARK: - Dependencies
 
@@ -40,6 +41,8 @@ public final class DashboardViewModel: ObservableObject {
     private let calendarProvider: CalendarProviderProtocol
     private let petRepository: PetRepositoryProtocol
     private let petStateEngine: PetStateEngineProtocol
+    private let liveActivityManager: LiveActivityManagerProtocol
+    private let liveActivityEventResolver: LiveActivityEventResolver
     private var loadTask: Task<Void, Never>?
 
     // MARK: - Init
@@ -49,13 +52,17 @@ public final class DashboardViewModel: ObservableObject {
         dateProvider: DateProviderProtocol,
         calendarProvider: CalendarProviderProtocol,
         petRepository: PetRepositoryProtocol = DummyPetRepository(),
-        petStateEngine: PetStateEngineProtocol = DummyPetStateEngine()
+        petStateEngine: PetStateEngineProtocol = DummyPetStateEngine(),
+        liveActivityManager: LiveActivityManagerProtocol = DummyLiveActivityManager(),
+        liveActivityEventResolver: LiveActivityEventResolver = LiveActivityEventResolver()
     ) {
         self.eventRepository = eventRepository
         self.dateProvider = dateProvider
         self.calendarProvider = calendarProvider
         self.petRepository = petRepository
         self.petStateEngine = petStateEngine
+        self.liveActivityManager = liveActivityManager
+        self.liveActivityEventResolver = liveActivityEventResolver
     }
 
     // MARK: - Public Interface
@@ -128,6 +135,49 @@ public final class DashboardViewModel: ObservableObject {
 
     public func cancelTasks() {
         loadTask?.cancel()
+    }
+
+    // MARK: - Live Activity
+
+    /// Manually triggers a Live Activity for the next upcoming event.
+    /// Called when user taps "Tampilkan di Dynamic Island" in the dashboard.
+    public func showNextEventLiveActivity() {
+        Task {
+            do {
+                let allEvents = try await eventRepository.fetchEvents()
+                guard let event = liveActivityEventResolver.resolveEvent(from: allEvents) else {
+                    liveActivityError = "Tidak ada event yang bisa ditampilkan."
+                    return
+                }
+                guard let pet = petProfile else {
+                    liveActivityError = "Profil pet belum tersedia."
+                    return
+                }
+
+                let contentState = liveActivityEventResolver.buildContentState(event: event, pet: pet)
+                let attrs = liveActivityEventResolver.buildAttributes(for: event)
+
+                try await liveActivityManager.startActivity(
+                    eventId: attrs.eventId,
+                    eventTitle: attrs.eventTitle,
+                    eventCategorySymbol: attrs.eventCategorySymbol,
+                    deepLinkURL: attrs.deepLinkURL,
+                    contentState: contentState
+                )
+                liveActivityError = nil
+                dialogueText = "Live Activity aktif di Dynamic Island! 🏝️"
+            } catch {
+                liveActivityError = "Gagal menampilkan Live Activity: \(error.localizedDescription)"
+            }
+        }
+    }
+
+    /// Ends all active Live Activities.
+    public func stopLiveActivity() {
+        Task {
+            await liveActivityManager.endAllActivities()
+            dialogueText = "Dynamic Island dinonaktifkan."
+        }
     }
 
     // MARK: - Pet Interactions

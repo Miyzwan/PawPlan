@@ -10,16 +10,19 @@ public final class EventDetailViewModel: ObservableObject {
     
     private let eventRepository: EventRepositoryProtocol
     private let dateProvider: DateProviderProtocol
+    private let liveActivityManager: LiveActivityManagerProtocol
     private var loadTask: Task<Void, Never>?
     
     public init(
         event: CalendarEvent,
         eventRepository: EventRepositoryProtocol,
-        dateProvider: DateProviderProtocol
+        dateProvider: DateProviderProtocol,
+        liveActivityManager: LiveActivityManagerProtocol = DummyLiveActivityManager()
     ) {
         self.event = event
         self.eventRepository = eventRepository
         self.dateProvider = dateProvider
+        self.liveActivityManager = liveActivityManager
     }
     
     public func reloadEvent() {
@@ -60,9 +63,12 @@ public final class EventDetailViewModel: ObservableObject {
     }
     
     public func deleteEvent() {
+        let eventId = event.id
         Task {
             do {
-                try await eventRepository.deleteEvent(by: event.id)
+                try await eventRepository.deleteEvent(by: eventId)
+                // End Live Activity if one was active for this event
+                await liveActivityManager.endActivity(for: eventId)
                 self.isDeleted = true
             } catch {
                 self.errorMessage = error.localizedDescription
@@ -99,6 +105,12 @@ public final class EventDetailViewModel: ObservableObject {
             do {
                 try await eventRepository.saveEvent(updatedEvent)
                 self.event = updatedEvent
+                // End Live Activity if event is now completed, skipped, or cancelled
+                if updatedEvent.status == .completed
+                    || updatedEvent.status == .skipped
+                    || updatedEvent.status == .cancelled {
+                    await liveActivityManager.endActivity(for: updatedEvent.id)
+                }
             } catch {
                 self.errorMessage = error.localizedDescription
             }

@@ -84,6 +84,50 @@ public struct DashboardView: View {
                     .appShadow(.light)
                     .padding(.horizontal, AppSpacing.medium)
 
+                    // Live Activity Control Panel
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Dynamic Island & Live Activity")
+                                    .font(AppTypography.bodyBold)
+                                    .foregroundColor(.primary)
+                                Text("Pantau agenda langsung dari Lock Screen")
+                                    .font(AppTypography.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            Button(action: {
+                                viewModel.showNextEventLiveActivity()
+                            }) {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "play.circle.fill")
+                                    Text("Aktifkan")
+                                }
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(Color.accentColor)
+                                .cornerRadius(10)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityIdentifier("dashboard_trigger_live_activity")
+                        }
+                        
+                        if let errorMsg = viewModel.liveActivityError {
+                            Text(errorMsg)
+                                .font(AppTypography.caption)
+                                .foregroundColor(.red)
+                                .padding(.top, 2)
+                        }
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .cornerRadius(AppRadius.medium)
+                    .appShadow(.light)
+                    .padding(.horizontal, AppSpacing.medium)
+
                     // Upcoming events list
                     if !data.upcomingEvents.isEmpty {
                         VStack(alignment: .leading, spacing: AppSpacing.small) {

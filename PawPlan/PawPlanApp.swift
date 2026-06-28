@@ -23,6 +23,18 @@ struct PawPlanApp: App {
                 settings: settings
             )
             .modelContainer(container.modelContainer)
+            .onOpenURL { url in
+                handleDeepLink(url)
+            }
         }
+    }
+    
+    private func handleDeepLink(_ url: URL) {
+        // Expected URL: pawplan://event/<UUID>
+        guard url.scheme == "pawplan",
+              url.host == "event" else { return }
+        let eventIdString = url.lastPathComponent
+        guard let id = UUID(uuidString: eventIdString) else { return }
+        router.navigateToEvent(id: id)
     }
 }

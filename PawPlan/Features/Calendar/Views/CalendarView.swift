@@ -4,13 +4,16 @@ import PawPlanShared
 public struct CalendarView: View {
     @StateObject private var viewModel: CalendarViewModel
     private let container: AppContainer
+    @ObservedObject private var router: AppRouter
     
     @State private var displayMode: CalendarDisplayMode = .calendar
     @State private var isShowingEditor = false
+    @State private var deepLinkedEvent: CalendarEvent? = nil
     
-    public init(viewModel: CalendarViewModel, container: AppContainer) {
+    public init(viewModel: CalendarViewModel, container: AppContainer, router: AppRouter) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.container = container
+        self.router = router
     }
     
     public var body: some View {
@@ -106,6 +109,31 @@ public struct CalendarView: View {
                 viewModel.loadCalendar()
             }) {
                 EventEditorView(viewModel: container.makeEventEditorViewModel())
+            }
+            .sheet(item: $deepLinkedEvent) { event in
+                NavigationStack {
+                    EventDetailView(
+                        viewModel: container.makeEventDetailViewModel(event: event),
+                        container: container
+                    )
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Tutup") {
+                                deepLinkedEvent = nil
+                            }
+                        }
+                    }
+                }
+            }
+            .onChange(of: router.deepLinkedEventId) { _, newId in
+                if let id = newId {
+                    Task {
+                        if let event = try? await container.eventRepository.fetchEvent(by: id) {
+                            self.deepLinkedEvent = event
+                        }
+                        router.clearDeepLink()
+                    }
+                }
             }
             .task {
                 viewModel.loadCalendar()
